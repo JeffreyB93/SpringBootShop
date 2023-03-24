@@ -4,6 +4,7 @@ import com.example.springbootshop.dao.entity.User;
 import com.example.springbootshop.dao.repository.UserRepository;
 import com.example.springbootshop.exception.ServiceException;
 import com.example.springbootshop.service.UserService;
+import com.example.springbootshop.service.validator.BaseValidator;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,9 +14,11 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final BaseValidator baseValidator;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, BaseValidator baseValidator) {
         this.userRepository = userRepository;
+        this.baseValidator = baseValidator;
     }
 
     @Override
@@ -48,13 +51,18 @@ public class UserServiceImpl implements UserService {
         return updateUser;
     }
 
+
+    // TODO: 24.03.2023 добавить проверку на имя, что бы были только буквы
     @Override
     public User save(User user) throws ServiceException {
         if (user.getId() != null) {
             throw new ServiceException("У данного пользователя есть id!");
         }
-        User saveUser = userRepository.saveAndFlush(user);
-        return saveUser;
+        if (baseValidator.isValidPassword(user.getPassword()) && baseValidator.isValidBalance(user.getBalance())) {
+            User saveUser = userRepository.saveAndFlush(user);
+            return saveUser;
+        }
+        throw new ServiceException("не правильный isValidPassword или isValidBalance");
     }
 
     @Override
