@@ -5,6 +5,7 @@ import com.example.springbootshop.dao.repository.UserRepository;
 import com.example.springbootshop.exception.ServiceException;
 import com.example.springbootshop.service.UserService;
 import com.example.springbootshop.service.validator.BaseValidator;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,9 +17,12 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final BaseValidator baseValidator;
 
-    public UserServiceImpl(UserRepository userRepository, BaseValidator baseValidator) {
+    private final PasswordEncoder passwordEncoder;
+
+    public UserServiceImpl(UserRepository userRepository, BaseValidator baseValidator, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.baseValidator = baseValidator;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
