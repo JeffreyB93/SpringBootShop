@@ -1,12 +1,11 @@
 package com.example.springbootshop.web.dto.pojo;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;

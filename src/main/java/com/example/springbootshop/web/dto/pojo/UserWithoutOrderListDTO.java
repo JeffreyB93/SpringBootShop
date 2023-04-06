@@ -1,15 +1,9 @@
 package com.example.springbootshop.web.dto.pojo;
 
-import com.example.springbootshop.dao.entity.Role;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Positive;
-import lombok.AllArgsConstructor;
+
+import javax.validation.constraints.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.Set;
@@ -38,7 +32,7 @@ public class UserWithoutOrderListDTO {
 
     private Set<RoleFullDTO> roleFullDTOSet;
 
-    @JsonIgnore
+    /*@JsonIgnore*/
     public String getPassword() {
         return password;
     }
