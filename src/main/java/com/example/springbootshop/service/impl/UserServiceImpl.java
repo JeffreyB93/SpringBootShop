@@ -52,13 +52,12 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    // TODO: 24.03.2023 добавить проверку на имя, что бы были только буквы
     @Override
     public User save(User user) throws ServiceException {
         if (user.getId() != null) {
             throw new ServiceException("У данного пользователя есть id!");
-        }
-        if (baseValidator.isValidPassword(user.getPassword()) && baseValidator.isValidBalance(user.getBalance())) {
+        }// TODO: 28.03.2023 Посиотреть matches
+        if (baseValidator.isValidPassword(user.getPassword()) && baseValidator.isValidBalance(user.getBalance()) && user.getName().matches("^[a-zA-Z\sа-яА-Я]*$")) {
             User saveUser = userRepository.saveAndFlush(user);
             return saveUser;
         }

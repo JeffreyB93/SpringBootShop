@@ -30,12 +30,11 @@ public class User {
     @JoinColumn(name = "user_id")
     private List<Order> orderList;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinTable(name = "user_role",
     joinColumns = @JoinColumn(name = "user_id"),
     inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roleSet;
-
 
     @Override
     public boolean equals(Object o) {
