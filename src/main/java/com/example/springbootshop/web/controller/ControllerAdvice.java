@@ -1,7 +1,7 @@
 package com.example.springbootshop.web.controller;
 
 import com.example.springbootshop.exception.ControllerException;
-import com.example.springbootshop.web.poja.ErrorMessage;
+import com.example.springbootshop.web.pojo.ErrorMessage;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

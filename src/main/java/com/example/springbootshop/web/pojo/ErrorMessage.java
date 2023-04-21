@@ -1,4 +1,4 @@
-package com.example.springbootshop.web.poja;
+package com.example.springbootshop.web.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
