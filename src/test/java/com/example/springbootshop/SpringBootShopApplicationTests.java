@@ -1,25 +1,26 @@
 package com.example.springbootshop;
 
-
-import static org.junit.Assert.*;
-import com.example.springbootshop.service.validator.impl.BaseValidatorImpl;
+import com.example.springbootshop.service.validator.BaseValidator;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class SpringBootShopApplicationTests {
 
-    @Test
-    void contextLoads_1() {
+    @Autowired
+    private BaseValidator baseValidator;
 
-        BaseValidatorImpl baseValidator = new BaseValidatorImpl();
-        assertEquals(true, baseValidator.isValidPassword("12345"));
+    @Test
+    void isValidPasswordCorrect() {
+        assertTrue(baseValidator.isValidPassword("12345"));
     }
 
     @Test
-    void contextLoads_2() {
-
-        BaseValidatorImpl baseValidator = new BaseValidatorImpl();
-        assertEquals(false, baseValidator.isValidPassword("123"));
+    void isValidPasswordIncorrect() {
+        assertTrue(baseValidator.isValidPassword("12345"), "Описание ошибки");
     }
 }

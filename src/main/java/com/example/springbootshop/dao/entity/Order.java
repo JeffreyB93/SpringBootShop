@@ -1,7 +1,6 @@
 package com.example.springbootshop.dao.entity;
 
-import jakarta.persistence.*;
-
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;

@@ -1,6 +1,6 @@
 package com.example.springbootshop.dao.entity;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
