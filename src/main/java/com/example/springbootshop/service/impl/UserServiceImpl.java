@@ -51,17 +51,22 @@ public class UserServiceImpl implements UserService {
         return updateUser;
     }
 
-
     @Override
     public User save(User user) throws ServiceException {
         if (user.getId() != null) {
             throw new ServiceException("У данного пользователя есть id!");
-        }// TODO: 28.03.2023 Посиотреть matches
-        if (baseValidator.isValidPassword(user.getPassword()) && baseValidator.isValidBalance(user.getBalance()) && user.getName().matches("^[a-zA-Z\sа-яА-Я]*$")) {
-            User saveUser = userRepository.saveAndFlush(user);
-            return saveUser;
         }
-        throw new ServiceException("не правильный isValidPassword или isValidBalance");
+        if (!baseValidator.isValidPassword(user.getPassword())) {
+            throw new ServiceException("не правильный isValidPassword");
+        }
+        if (!baseValidator.isValidBalance(user.getBalance())) {
+            throw new ServiceException("Баланс не может быть больше 0");
+        }
+        if (user.getName().matches("^[a-zA-Z\sа-яА-Я]*$")) {
+            throw new ServiceException("Имя");
+        }
+        User saveUser = userRepository.saveAndFlush(user);
+        return saveUser;
     }
 
     @Override

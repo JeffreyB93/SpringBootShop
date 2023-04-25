@@ -22,7 +22,6 @@ public class Order {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     private List<Product> productList;
-    // TODO: 28.03.2023 разобраться в cascade
 
     public Long getId() {
         return id;

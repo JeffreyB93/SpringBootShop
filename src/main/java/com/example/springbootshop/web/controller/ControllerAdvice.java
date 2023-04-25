@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 @RestControllerAdvice
 public class ControllerAdvice extends ResponseEntityExceptionHandler {
 
-
     @ExceptionHandler(ControllerException.class)
     public ResponseEntity<ErrorMessage> handleControllerException(ControllerException controllerException) {
         ErrorMessage errorMessage = ErrorMessage.builder()

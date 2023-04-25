@@ -15,15 +15,12 @@ import java.util.Set;
 @NoArgsConstructor
 @Data
 public class UserFullDTO {
-    // TODO: 28.03.2023 добавить анатации, добавить по логике
     private Long id;
-
     //@NotBlank - не пустой
     //@NotEmpty - не пустой для колекция
     @NotNull(message = "Имя нет")
     @Pattern(regexp = "^[a-zA-Z\sа-яА-Я]*$", message = "Должны быть только буквы! ${validatedValue}")
     private String name;
-
     //@Max(value = 10)//бываюь на макс и минимальное значение
     //@Min(value = 0)
     //@Positive// все числа не отрицательные
@@ -31,14 +28,11 @@ public class UserFullDTO {
     @NotNull
     @Email
     private String login;
-
     private String password;
     @NotNull
     @Positive
     private BigDecimal balance;
-
     private List<OrderFullDTO> orderFullDTOList;
-
     private Set<RoleFullDTO> roleFullDTOSet;
 
 //    @JsonIgnore

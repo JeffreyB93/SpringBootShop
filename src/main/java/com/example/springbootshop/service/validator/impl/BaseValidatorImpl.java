@@ -14,6 +14,6 @@ public class BaseValidatorImpl implements BaseValidator {
 
     @Override
     public boolean isValidBalance(BigDecimal balance) {
-        return balance.compareTo(BigDecimal.ZERO) >= 0;
+        return balance.compareTo(BigDecimal.ZERO) >= 0;// TODO: 21.04.2023 Спросить у Виктора
     }
 }
