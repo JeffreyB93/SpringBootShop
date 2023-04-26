@@ -12,7 +12,6 @@ import java.time.Instant;
 @NoArgsConstructor
 public class RefreshToken {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -23,4 +22,8 @@ public class RefreshToken {
 
     @Column(name = "expire_date")
     private Instant expireDate;
+
+    @JoinColumn(name = "user_id")
+    @OneToOne
+    private User user;
 }
