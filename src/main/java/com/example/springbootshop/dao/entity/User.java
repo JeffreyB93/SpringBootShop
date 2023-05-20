@@ -1,7 +1,11 @@
 package com.example.springbootshop.dao.entity;
 
 import javax.persistence.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -11,6 +15,9 @@ import java.util.Set;
 @Entity
 @Data
 @Table(name = "demo_user")
+@Builder
+@AllArgsConstructor//Builder
+@NoArgsConstructor//Builder
 public class User {
 
     @Id

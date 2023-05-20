@@ -1,6 +1,5 @@
 package com.example.springbootshop.dao.pojo;
 
-import com.example.springbootshop.dao.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,9 +23,9 @@ public class JWTResponse {
 
     private String login;
 
-    private Set<Role> roleSet;
+    private Set<String> roleSet;
 
-    public JWTResponse(String token, String refreshToken, Long id, String username, String login, Set<Role> roleSet) {
+    public JWTResponse(String token, String refreshToken, Long id, String username, String login, Set<String> roleSet) {
         this.token = token;
         this.refreshToken = refreshToken;
         this.id = id;

@@ -50,6 +50,7 @@ public final class JWTUtils {
         ZonedDateTime zonedDateTime = LocalDateTime.now().atZone(ZoneId.systemDefault());
         Date issueDate = Date.from(zonedDateTime.toInstant());
         Date exparedDate = Date.from(zonedDateTime.plusMinutes(accessJwtExpirationMinutes).toInstant());
+        System.out.println(jwtSecret);
         return Jwts.builder().setSubject(username)
                 .setIssuedAt(issueDate)
                 .setExpiration(exparedDate)

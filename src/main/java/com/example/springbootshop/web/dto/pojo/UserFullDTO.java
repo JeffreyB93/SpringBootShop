@@ -15,7 +15,6 @@ import java.util.Set;
 @NoArgsConstructor
 @Data
 public class UserFullDTO {
-    // TODO: 28.03.2023 добавить анатации, добавить по логике
     private Long id;
 
     //@NotBlank - не пустой

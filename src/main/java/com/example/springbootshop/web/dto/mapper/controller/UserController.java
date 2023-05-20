@@ -1,4 +1,4 @@
-package com.example.springbootshop.web.controller;
+package com.example.springbootshop.web.dto.mapper.controller;
 
 import com.example.springbootshop.dao.entity.User;
 import com.example.springbootshop.exception.ControllerException;
@@ -10,6 +10,7 @@ import com.example.springbootshop.web.dto.pojo.UserFullDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,8 +33,8 @@ public class UserController {
         this.userService = userService;
     }
 
-    // TODO: 24.03.2023  добавить дто во всех контролерах
     @GetMapping
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<List<UserFullDTO>> findAll() {
         List<User> userList = userService.findAll();
         List<UserFullDTO> userFullDTOList = new ArrayList<>();

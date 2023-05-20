@@ -3,8 +3,10 @@ package com.example.springbootshop.service.impl;
 import com.example.springbootshop.dao.entity.RefreshToken;
 import com.example.springbootshop.dao.entity.User;
 import com.example.springbootshop.dao.pojo.*;
+import com.example.springbootshop.dao.repository.RoleRepository;
 import com.example.springbootshop.dao.repository.UserRepository;
 import com.example.springbootshop.service.AuthService;
+import com.example.springbootshop.service.RefreshTokenService;
 import com.example.springbootshop.service.security.UserDetailImpl;
 import com.example.springbootshop.service.security.utils.JWTUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +15,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -23,11 +26,26 @@ import java.util.stream.Collectors;
 @Service
 public class AuthServiceImpl implements AuthService {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    private JWTUtils jwtUtils;
+    private final JWTUtils jwtUtils;
+
+    private final RefreshTokenService refreshTokenService;
+
+    private final UserRepository userRepository;
+
+    private final PasswordEncoder passwordEncoder;
+
+    private final RoleRepository roleRepository;
+
+    public AuthServiceImpl(AuthenticationManager authenticationManager, JWTUtils jwtUtils, RefreshTokenService refreshTokenService, UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
+        this.authenticationManager = authenticationManager;
+        this.jwtUtils = jwtUtils;
+        this.refreshTokenService = refreshTokenService;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.roleRepository = roleRepository;
+    }
 
     @Override
     public JWTResponse authenticateUser(LoginRequest loginRequest) {
@@ -40,22 +58,44 @@ public class AuthServiceImpl implements AuthService {
                 .stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toSet());
-        RefreshToken refreshToken = re
-        return null;
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetail.getId());
+        return new JWTResponse(jwt, refreshToken.getToken(), userDetail.getId(), userDetail.getUsername(),
+                userDetail.getUsername(), roleSet);
     }
-    // TODO: 25.04.2023 Продолжить
+
     @Override
     public User registerUser(SignRequest signRequest) {
-        return null;
+        if (userRepository.findByLogin(signRequest.getLogin()).isPresent()) {
+            throw new SecurityException("Такой логин есть");
+        }
+        User user = User.builder()
+                .name(signRequest.getName())
+                .login(signRequest.getLogin())
+                .balance(signRequest.getBalance())
+                .password(passwordEncoder.encode(signRequest.getPassword()))
+                .roleSet(Collections.singleton(roleRepository.findByName("ROLE_USER")))
+                .build();
+        return userRepository.save(user);
     }
 
     @Override
     public TokenRefreshResponse refreshToken(TokenRefreshRequest request) {
-        return null;
+        String requestRefreshToken = request.getRefreshToken();
+        TokenRefreshResponse tokenRefreshResponse = refreshTokenService.findByToken(requestRefreshToken)
+            .map(refreshTokenService::verifyExpiration)
+                .map(RefreshToken::getUser)
+                .map(user -> {
+                    String token = jwtUtils.generateTokenFromUsername(user.getLogin());
+                    return new TokenRefreshResponse(token, requestRefreshToken);
+                })
+                .orElseThrow(() -> new SecurityException("Вы ввели не верный рефрештокен"));
+        return tokenRefreshResponse;
     }
 
     @Override
     public boolean logoutUser() {
-        return false;
+        UserDetailImpl userDetail = (UserDetailImpl) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        return refreshTokenService.deleteByUserId(userDetail.getId()) > 0;
     }
 }

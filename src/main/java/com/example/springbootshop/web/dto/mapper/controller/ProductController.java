@@ -1,4 +1,4 @@
-package com.example.springbootshop.web.controller;
+package com.example.springbootshop.web.dto.mapper.controller;
 
 import com.example.springbootshop.dao.entity.Product;
 import com.example.springbootshop.exception.ControllerException;
@@ -52,7 +52,7 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ProductFullDTO> update(@PathVariable Long id, @RequestBody Product product) throws ControllerException {
-        Product productUpdate = null;// TODO: 01.04.2023 также как в юзере
+        Product productUpdate = null;
         try {
             productUpdate = productService.update(id, product);
         } catch (ServiceException e) {

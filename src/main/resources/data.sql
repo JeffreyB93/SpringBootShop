@@ -1,7 +1,6 @@
-insert into demo_role(name) values ('admin');
-insert into demo_role(name) values ('user');
-insert into demo_role(name) values ('salesman');
-
+insert into demo_role(name) values ('ROLE_ADMIN');
+insert into demo_role(name) values ('ROLE_USER');
+insert into demo_role(name) values ('ROLE_SALESMAN');
 
 insert into demo_user(balance, login, name, password) values (10, 'user_1', 'user_1@', '123');
 insert into demo_user(balance, login, name, password) values (20, 'user_2', 'user_2@', '123');

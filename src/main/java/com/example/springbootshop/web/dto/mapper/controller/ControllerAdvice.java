@@ -1,4 +1,4 @@
-package com.example.springbootshop.web.controller;
+package com.example.springbootshop.web.dto.mapper.controller;
 
 import com.example.springbootshop.exception.ControllerException;
 import com.example.springbootshop.web.pojo.ErrorMessage;
@@ -45,7 +45,6 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorMessage, HttpStatus.UNSUPPORTED_MEDIA_TYPE);
     }
 
-    // TODO: 01.04.2023 обработать самому  500 ошибка
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
         return super.handleExceptionInternal(ex, body, headers, status, request);
