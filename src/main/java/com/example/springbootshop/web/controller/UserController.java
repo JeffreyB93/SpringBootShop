@@ -10,6 +10,8 @@ import com.example.springbootshop.web.dto.pojo.UserFullDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,9 +19,8 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
-@RestController
-@RequestMapping(value = "/users",
-        produces = MediaType.APPLICATION_JSON_VALUE)
+@Controller
+@RequestMapping(value = "/users")
 @Validated
 public class UserController {
 
@@ -32,15 +33,16 @@ public class UserController {
         this.userService = userService;
     }
 
-    // TODO: 24.03.2023  добавить дто во всех контролерах
-    @GetMapping
-    public ResponseEntity<List<UserFullDTO>> findAll() {
+    @GetMapping("/findAll")
+    public String findAll(Model model) {
         List<User> userList = userService.findAll();
         List<UserFullDTO> userFullDTOList = new ArrayList<>();
         for (User user : userList) {
             userFullDTOList.add(userFullMapper.convertFromEntity(user));
         }
-        return ResponseEntity.ok(userFullDTOList);
+        model.addAttribute("userList", userFullDTOList);
+        model.addAttribute("user", new User());
+        return "users/userPage";
     }
 
     @GetMapping("/{id}")
@@ -70,14 +72,17 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserFullDTO> save(@RequestBody @Valid UserFullDTO userFullDTO) throws ControllerException {
-        try {
+    public String save(@ModelAttribute("user") User user) {
+
+        System.out.println(user.toString());
+        return "redirect:/";
+        /*try {
             User userSave = userService.save(userFullMapper.convertFromDTO(userFullDTO));
             UserFullDTO userSaveFullDTO = userFullMapper.convertFromEntity(userSave);
             return new ResponseEntity<>(userSaveFullDTO, HttpStatus.CREATED);
         } catch (ServiceException e) {
             throw new ControllerException(e);
-        }
+        }*/
     }
 
     @DeleteMapping("/{id}")
